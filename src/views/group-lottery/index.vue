@@ -113,31 +113,44 @@
                 "{{ groupInfo.motto }}"
               </div>
 
-              <!-- 组员名单 -->
-              <div class="members-section">
+              <!-- 个人信息卡片 -->
+              <div class="personal-section">
                 <h3 class="section-title">
-                  <el-icon><People /></el-icon>
-                  团队成员 ({{ groupInfo.members.length }}人)
+                  <el-icon><UserFilled /></el-icon>
+                  您的分组信息
                 </h3>
                 
-                <div class="members-grid">
-                  <div 
-                    v-for="(member, index) in groupInfo.members" 
-                    :key="member.id"
-                    class="member-card"
-                    :class="{ 'current-member': member.id === currentStudent.id }"
-                    :style="{ animationDelay: `${index * 0.1}s` }"
-                  >
-                    <el-avatar :size="60" :src="member.avatar" icon="UserFilled" />
-                    <div class="member-info">
-                      <div class="member-name">
-                        {{ decrypt(member.name) }}
-                        <el-icon v-if="member.id === currentStudent.id" color="#f56c6c">
-                          <StarFilled />
-                        </el-icon>
-                      </div>
-                      <div class="member-role">{{ member.position }}</div>
-                      <div class="member-company">{{ member.company }}</div>
+                <div class="personal-card">
+                  <el-avatar :size="80" icon="UserFilled" />
+                  <div class="personal-info">
+                    <div class="personal-name">
+                      {{ decrypt(currentStudent.name) }}
+                      <el-icon color="#f56c6c">
+                        <StarFilled />
+                      </el-icon>
+                    </div>
+                    <div class="personal-role">EMBA学员</div>
+                    <div class="personal-group">第{{ groupInfo.groupNumber }}组成员</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 群管理任务 -->
+              <div class="group-leader-task" v-if="isGroupLeader">
+                <div class="task-card">
+                  <div class="task-icon">
+                    <el-icon><ChatDotRound /></el-icon>
+                  </div>
+                  <div class="task-content">
+                    <h4>🎯 重要任务</h4>
+                    <p>您已被指定为本组的群管理员！请创建小组微信群，方便组员们交流学习。</p>
+                    <div class="task-steps">
+                      <p>📱 <strong>创建步骤：</strong></p>
+                      <ol>
+                        <li>创建微信群（建议群名：{{ groupInfo.themeName }}）</li>
+                        <li>邀请本组其他11位同学入群</li>
+                      </ol>
+                      <p class="task-note">✅ 创建完成后，您的任务就完成了！</p>
                     </div>
                   </div>
                 </div>
@@ -365,6 +378,7 @@ const groupsData: Record<number, any> = {
 
 const currentStudent = ref<any>({})
 const groupInfo = ref<any>({})
+const isGroupLeader = ref(false)
 
 // 表单验证规则
 const rules: FormRules = {
@@ -406,6 +420,17 @@ const handleQuery = async () => {
     currentStudent.value = student
     groupInfo.value = groupsData[student.groupNumber]
     
+    // 判断是否为群管理员（负责创建微信群）
+    const groupManagers = {
+      1: '王艺璇',    // 第1组群管理员
+      2: '李泽鹏',    // 第2组群管理员
+      3: '吴晓菲',    // 第3组群管理员
+      4: '刘宇昕'     // 第4组群管理员
+    }
+    
+    const studentName = decrypt(student.name)
+    isGroupLeader.value = groupManagers[student.groupNumber] === studentName
+    
     isQuerying.value = false
     showResult.value = true
 
@@ -442,6 +467,7 @@ const resetQuery = () => {
   queryForm.password = ''
   currentStudent.value = {}
   groupInfo.value = {}
+  isGroupLeader.value = false
 }
 
 // 装饰元素位置
@@ -470,7 +496,7 @@ const getConfettiStyle = (index: number) => {
 <style scoped lang="scss">
 .group-lottery {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8C1C13 0%, #5d1309 100%);
   position: relative;
   overflow: hidden;
   padding: 20px;
@@ -735,7 +761,7 @@ const getConfettiStyle = (index: number) => {
         gap: 10px;
       }
 
-      .members-section {
+      .personal-section {
         margin: 30px 0;
 
         .section-title {
@@ -747,71 +773,108 @@ const getConfettiStyle = (index: number) => {
           gap: 10px;
         }
 
-        .members-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 20px;
+        .personal-card {
+          background: linear-gradient(135deg, $primary-color, $primary-light);
+          border-radius: 20px;
+          padding: 30px;
+          text-align: center;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          color: white;
+          animation: slideInUp 0.6s ease forwards;
 
-          .member-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
+          .personal-info {
+            margin-top: 20px;
+
+            .personal-name {
+              font-size: 1.5rem;
+              font-weight: 600;
+              margin-bottom: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 8px;
+            }
+
+            .personal-role {
+              font-size: 1rem;
+              opacity: 0.9;
+              margin-bottom: 5px;
+            }
+
+            .personal-group {
+              font-size: 1.1rem;
+              font-weight: 500;
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+
+      .group-leader-task {
+        margin: 30px 0;
+
+        .task-card {
+          background: linear-gradient(135deg, #f9ca24, #f39c12);
+          border-radius: 20px;
+          padding: 25px;
+          color: #2c3e50;
+          animation: slideInUp 0.8s ease forwards;
+          box-shadow: 0 10px 25px rgba(249, 202, 36, 0.3);
+
+          .task-icon {
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            animation: slideInUp 0.6s ease forwards;
-            opacity: 0;
-            transform: translateY(30px);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #e67e22;
+          }
 
-            &.current-member {
-              background: linear-gradient(135deg, $primary-color, $primary-light);
-              color: white;
-              transform: scale(1.05);
-
-              .member-name,
-              .member-role,
-              .member-company {
-                color: white;
-              }
+          .task-content {
+            h4 {
+              font-size: 1.4rem;
+              margin-bottom: 15px;
+              text-align: center;
+              color: #2c3e50;
             }
 
-            &:hover {
-              transform: translateY(-5px);
-              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            p {
+              font-size: 1rem;
+              margin-bottom: 20px;
+              text-align: center;
+              line-height: 1.6;
             }
 
-            .member-info {
-              margin-top: 15px;
+              .task-steps {
+                background: rgba(255, 255, 255, 0.3);
+                padding: 20px;
+                border-radius: 15px;
+                text-align: left;
 
-              .member-name {
-                font-size: 1.1rem;
-                font-weight: 600;
-                color: $text-primary;
-                margin-bottom: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 5px;
-              }
+                p {
+                  margin-bottom: 10px;
+                  text-align: left;
+                  font-weight: 600;
+                }
 
-              .member-role {
-                font-weight: 500;
-                color: $accent-color;
-                margin-bottom: 5px;
-              }
+                .task-note {
+                  margin-top: 15px;
+                  padding: 10px;
+                  background: rgba(255, 255, 255, 0.5);
+                  border-radius: 8px;
+                  text-align: center !important;
+                  font-weight: 500;
+                  color: #2c3e50;
+                }
 
-              .member-company {
-                font-size: 0.9rem;
-                color: $text-secondary;
-              }
-            }
+                ol {
+                  margin: 0;
+                  padding-left: 20px;
 
-            @keyframes slideInUp {
-              to {
-                opacity: 1;
-                transform: translateY(0);
+                  li {
+                    margin-bottom: 8px;
+                    line-height: 1.5;
+                  }
+                }
               }
-            }
           }
         }
       }

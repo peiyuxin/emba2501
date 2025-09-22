@@ -128,7 +128,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { User, Lock, View, Gift } from '@element-plus/icons-vue'
+import { User, Lock, View } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
