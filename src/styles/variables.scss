@@ -1,0 +1,59 @@
+// 主色调配置 - 人大红色系
+$primary-color: #8C1C13; // 人大红 (更接近校色)
+$primary-light: #c41e3a;
+$primary-dark: #5d1309;
+
+// 金色点缀系统
+$accent-color: #BB9C67; // 金色
+$accent-light: #d4b885;
+$accent-dark: #9d8354;
+
+// 辅助色彩
+$secondary-color: #1976d2;
+$success-color: #4caf50;
+$warning-color: #ff9800;
+$danger-color: #f44336;
+$info-color: #2196f3;
+
+// 中性色彩
+$text-primary: #333333;
+$text-secondary: #666666;
+$text-placeholder: #999999;
+$text-disabled: #cccccc;
+
+$bg-primary: #ffffff;
+$bg-secondary: #f5f5f5;
+$bg-hover: #f0f0f0;
+
+$border-color: #e0e0e0;
+$border-light: #f0f0f0;
+
+// 布局尺寸
+$header-height: 64px;
+$sidebar-width: 220px;
+$sidebar-collapsed-width: 64px;
+
+// 间距
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// 圆角
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// 阴影
+$shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.12);
+$shadow-heavy: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+// 字体
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
