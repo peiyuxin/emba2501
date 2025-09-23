@@ -494,6 +494,9 @@ const getConfettiStyle = (index: number) => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/variables.scss';
+@import '@/styles/responsive.scss';
+
 .group-lottery {
   min-height: 100vh;
   background: linear-gradient(135deg, #8C1C13 0%, #5d1309 100%);
@@ -990,50 +993,291 @@ const getConfettiStyle = (index: number) => {
   }
 }
 
-@media (max-width: 768px) {
+// 移动端优化
+@include mobile-only {
   .group-lottery {
     padding: 10px;
+    min-height: 100vh;
+
+    .lottery-container {
+      padding: $spacing-sm;
+    }
 
     .lottery-header {
+      text-align: center;
+      margin-bottom: $spacing-lg;
+
       .main-title {
-        font-size: 1.8rem;
+        @include responsive-font-size(1.8rem);
+        line-height: 1.3;
+        margin-bottom: $spacing-md;
+
+        .title-decoration {
+          display: block;
+          margin: $spacing-xs 0;
+        }
       }
 
       .sub-title {
-        font-size: 1.4rem;
+        @include responsive-font-size(1.4rem);
+        margin-bottom: $spacing-md;
+      }
+
+      .welcome-text {
+        @include responsive-font-size($font-size-sm);
+        line-height: 1.5;
       }
     }
 
     .query-section {
+      .lottery-box {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto $spacing-lg;
+
+        .box-body {
+          .box-content {
+            padding: $spacing-md;
+
+            .lottery-icon {
+              font-size: 3rem;
+            }
+
+            h3 {
+              font-size: $font-size-lg;
+              margin: $spacing-sm 0;
+            }
+
+            p {
+              font-size: $font-size-sm;
+            }
+          }
+        }
+      }
+
       .query-form {
-        padding: 30px 20px;
+        padding: $spacing-lg;
+        max-width: 100%;
+        
+        @include mobile-only {
+          padding: $spacing-md;
+        }
+
+        .form-title {
+          @include responsive-font-size($font-size-lg);
+          margin-bottom: $spacing-lg;
+        }
+
+        .el-form-item {
+          margin-bottom: $spacing-lg;
+        }
+
+        .el-input {
+          .el-input__inner {
+            height: 48px;
+            font-size: $font-size-md;
+          }
+        }
+
+        .query-btn {
+          width: 100%;
+          height: 48px;
+          @include responsive-font-size($font-size-md);
+          margin-top: $spacing-md;
+        }
       }
     }
 
-    .result-section {
-      .result-container {
-        padding: 20px;
+      .result-section {
+        .result-container {
+          padding: $spacing-md;
+        }
+
+      .congratulations {
+        text-align: center;
+        margin-bottom: $spacing-lg;
+
+        .congrats-icon {
+          font-size: 4rem;
+          margin-bottom: $spacing-md;
+        }
+
+        h2 {
+          @include responsive-font-size(1.5rem);
+          line-height: 1.3;
+          margin-bottom: $spacing-sm;
+        }
+
+        .congrats-text {
+          @include responsive-font-size($font-size-md);
+        }
       }
 
       .group-card {
-        padding: 20px;
+        @include card-responsive;
+        margin-bottom: $spacing-lg;
 
         .group-header {
           flex-direction: column;
-          gap: 15px;
+          text-align: center;
+          gap: $spacing-md;
+          margin-bottom: $spacing-lg;
+
+          .group-badge {
+            align-self: center;
+            font-size: $font-size-xl;
+            padding: $spacing-md $spacing-lg;
+          }
+
+          .group-info {
+            h3 {
+              @include responsive-font-size($font-size-xl);
+              margin-bottom: $spacing-sm;
+            }
+
+            p {
+              @include responsive-font-size($font-size-sm);
+            }
+          }
         }
 
-        .members-grid {
-          grid-template-columns: 1fr;
+        .members-section {
+          .section-title {
+            @include responsive-font-size($font-size-lg);
+            text-align: center;
+            margin-bottom: $spacing-md;
+          }
+
+          .members-grid {
+            grid-template-columns: 1fr;
+            gap: $spacing-sm;
+
+            .member-card {
+              padding: $spacing-md;
+              text-align: center;
+              
+              @include mobile-only {
+                padding: $spacing-sm;
+              }
+
+              .member-avatar {
+                margin-bottom: $spacing-sm;
+              }
+
+              .member-name {
+                @include responsive-font-size($font-size-md);
+                margin-bottom: $spacing-xs;
+              }
+
+              .member-role {
+                @include responsive-font-size($font-size-sm);
+              }
+            }
+          }
+        }
+      }
+
+      .warm-message {
+        margin: $spacing-lg 0;
+        padding: $spacing-md;
+        
+        @include mobile-only {
+          margin: $spacing-md 0;
+          padding: $spacing-sm;
+        }
+
+        .message-content {
+          flex-direction: column;
+          text-align: center;
+          gap: $spacing-sm;
+
+          .message-icon {
+            font-size: 2.5rem;
+          }
+
+          .message-text {
+            h4 {
+              @include responsive-font-size($font-size-lg);
+              margin-bottom: $spacing-sm;
+            }
+
+            p {
+              @include responsive-font-size($font-size-sm);
+              line-height: 1.5;
+            }
+          }
         }
       }
 
       .action-buttons {
-        flex-direction: column;
+        @include grid-responsive(1, $spacing-sm);
+        margin-top: $spacing-lg;
 
         .el-button {
-          width: 100%;
+          @include button-responsive;
+          @include touch-friendly;
+          @include responsive-font-size($font-size-md);
+          height: 48px;
+          border-radius: 24px;
         }
+      }
+    }
+
+    // 背景装饰在移动端简化
+    .background-decoration {
+      .floating-element {
+        font-size: 1rem;
+        opacity: 0.3;
+      }
+    }
+  }
+}
+
+// 小屏手机优化
+@media (max-width: $breakpoint-xs) {
+  .group-lottery {
+    .lottery-header {
+      .main-title {
+        font-size: 1.5rem;
+        
+        .title-decoration {
+          font-size: 1rem;
+        }
+      }
+
+      .sub-title {
+        font-size: 1.2rem;
+      }
+    }
+
+    .query-section {
+      .lottery-box {
+        max-width: 250px;
+        
+        .box-content {
+          .lottery-icon {
+            font-size: 2.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 横屏模式优化
+@media (max-height: 500px) and (orientation: landscape) {
+  .group-lottery {
+    .lottery-header {
+      margin-bottom: $spacing-md;
+      
+      .welcome-text {
+        display: none;
+      }
+    }
+
+    .query-section {
+      .lottery-box {
+        display: none;
       }
     }
   }

@@ -10,7 +10,7 @@
     <el-menu
       :default-active="activeMenu"
       class="sidebar-menu"
-      :collapse="collapse"
+      :collapse="collapse && !mobile"
       unique-opened
       router
     >
@@ -45,6 +45,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 interface Props {
   collapse: boolean
+  mobile?: boolean
 }
 
 defineProps<Props>()

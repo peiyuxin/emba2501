@@ -22,8 +22,8 @@
     </div>
     
     <!-- 中间标题 -->
-    <div class="header-title">
-      <h1>人民大学EMBA2501班</h1>
+    <div class="header-title" :class="{ 'mobile-title': mobile }">
+      <h1>{{ mobile ? 'EMBA2501' : '人民大学EMBA2501班' }}</h1>
     </div>
     
     <!-- 右侧 -->
@@ -38,9 +38,9 @@
       <!-- 用户头像和菜单 -->
       <el-dropdown trigger="click" @command="handleUserCommand">
         <div class="user-avatar">
-          <el-avatar :size="32" :src="userInfo.avatar" :icon="UserFilled" />
-          <span class="username">{{ userInfo.name }}</span>
-          <el-icon><ArrowDown /></el-icon>
+          <el-avatar :size="mobile ? 28 : 32" :src="userInfo.avatar" :icon="UserFilled" />
+          <span v-if="!mobile" class="username">{{ userInfo.name }}</span>
+          <el-icon v-if="!mobile"><ArrowDown /></el-icon>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -58,6 +58,12 @@
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Menu, Bell, UserFilled, ArrowDown } from '@element-plus/icons-vue'
+
+interface Props {
+  mobile?: boolean
+}
+
+defineProps<Props>()
 
 // 发出事件
 defineEmits<{
@@ -172,14 +178,50 @@ const handleUserCommand = (command: string) => {
   }
 }
 
-@media (max-width: 768px) {
+// 移动端适配
+@media (max-width: $breakpoint-sm) {
   .header {
-    .header-title h1 {
-      font-size: $font-size-lg;
+    padding: 0 $spacing-md;
+    
+    .header-left {
+      flex: 0;
+      min-width: auto;
+      
+      .breadcrumb {
+        display: none;
+      }
     }
     
-    .username {
-      display: none;
+    .header-title {
+      flex: 1;
+      
+      &.mobile-title h1 {
+        font-size: $font-size-lg;
+      }
+    }
+    
+    .header-right {
+      flex: 0;
+      min-width: auto;
+      gap: $spacing-sm;
+      
+      .notification .el-button {
+        padding: $spacing-xs;
+      }
+      
+      .username {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-xs) {
+  .header {
+    padding: 0 $spacing-sm;
+    
+    .header-title h1 {
+      font-size: $font-size-md;
     }
   }
 }
