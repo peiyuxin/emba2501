@@ -47,8 +47,16 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       output: {
-        chunkFileNames: 'js/[name]-[hash].js',
-        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: (chunkInfo) => {
+          // Remove underscore prefix from chunk names
+          const name = chunkInfo.name?.replace(/^_/, '') || 'chunk';
+          return `js/${name}-[hash].js`;
+        },
+        entryFileNames: (entryInfo) => {
+          // Remove underscore prefix from entry names
+          const name = entryInfo.name?.replace(/^_/, '') || 'entry';
+          return `js/${name}-[hash].js`;
+        },
         assetFileNames: (assetInfo) => {
           // Remove underscore prefix from asset names
           const name = assetInfo.name?.replace(/^_/, '') || 'asset';
