@@ -49,7 +49,11 @@ export default defineConfig({
       output: {
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]',
+        assetFileNames: (assetInfo) => {
+          // Remove underscore prefix from asset names
+          const name = assetInfo.name?.replace(/^_/, '') || 'asset';
+          return `assets/${name}-[hash].[ext]`;
+        },
       },
     },
   },
