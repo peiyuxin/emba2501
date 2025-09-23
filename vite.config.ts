@@ -18,6 +18,7 @@ export default defineConfig({
       dts: true,
     }),
   ],
+  base : '/emba2501/',
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
