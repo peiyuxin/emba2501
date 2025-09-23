@@ -4,7 +4,7 @@
   "description": "人民大学EMBA2501班前端网站",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp docs/index.html docs/404.html",
     "preview": "vite preview",
     "lint": "eslint src --ext .js,.vue,.ts",
     "lint:fix": "eslint src --ext .js,.vue,.ts --fix",
